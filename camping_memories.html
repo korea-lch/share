@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지효 & 유섭의 캠핑 일기</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Gothic:wght@400;700&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --cream: #f5efe0;
+    --warm: #e8d5b0;
+    --burnt: #c47d3e;
+    --forest: #3d5a3e;
+    --ember: #d4622a;
+    --sky: #7ab3c8;
+    --night: #1e2d3d;
+    --gold: #d4a853;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Nanum Gothic', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  .page {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 44px 30px 60px;
+  }
+
+  .header { text-align: center; margin-bottom: 44px; }
+  .header-icon { font-size: 64px; display: block; margin-bottom: 12px; animation: float 3.5s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .header h1 { font-family: 'Black Han Sans', sans-serif; font-size: 3.4rem; color: var(--forest); letter-spacing: -1px; line-height: 1.1; }
+  .header .subtitle { font-family: 'Nanum Myeongjo', serif; font-size: 1.05rem; color: var(--burnt); margin-top: 10px; font-style: italic; }
+  .year-badges { display: inline-flex; gap: 8px; margin-top: 16px; }
+  .year-badge { background: var(--forest); color: var(--cream); padding: 3px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; letter-spacing: 1px; }
+  .year-badge.current { background: var(--ember); position: relative; }
+  .year-badge.current::after { content: '진행중'; position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-size: 0.58rem; color: var(--ember); white-space: nowrap; font-weight: 700; }
+
+  .divider { border: none; border-top: 2px solid var(--warm); margin: 0 auto 44px; width: 80%; position: relative; }
+  .divider::after { content: '✦'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--cream); padding: 0 10px; color: var(--gold); font-size: 1rem; }
+
+  .grand-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 44px; }
+  .gstat { background: var(--ink); color: var(--cream); border-radius: 16px; padding: 22px 16px; text-align: center; position: relative; overflow: hidden; transition: transform 0.3s ease; opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  .gstat:hover { transform: translateY(-4px); }
+  .gstat:nth-child(1) { background: var(--forest); animation-delay: 0.1s; }
+  .gstat:nth-child(2) { background: var(--ember);  animation-delay: 0.18s; }
+  .gstat:nth-child(3) { background: var(--night);  animation-delay: 0.26s; }
+  .gstat:nth-child(4) { background: var(--burnt);  animation-delay: 0.34s; }
+  .gstat::before { content: ''; position: absolute; top: -20px; right: -20px; width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.07); }
+  .gstat-icon  { font-size: 1.8rem; margin-bottom: 6px; }
+  .gstat-num   { font-family: 'Black Han Sans', sans-serif; font-size: 2.1rem; line-height: 1; margin-bottom: 4px; }
+  .gstat-label { font-size: 0.72rem; opacity: 0.8; letter-spacing: 0.4px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title { font-family: 'Nanum Myeongjo', serif; font-size: 1.3rem; font-weight: 800; color: var(--forest); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--warm); }
+
+  /* 2025 HIGHLIGHT */
+  .highlight-strip { background: linear-gradient(135deg, #1e3a2f 0%, #2a5240 100%); color: var(--cream); border-radius: 20px; padding: 30px 34px; margin-bottom: 44px; position: relative; overflow: hidden; opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards; }
+  .highlight-strip::before { content: '⛺'; position: absolute; font-size: 150px; right: -10px; bottom: -24px; opacity: 0.09; line-height: 1; }
+  .hs-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+  .hs-title { font-family: 'Black Han Sans', sans-serif; font-size: 1.5rem; color: #a8d5b0; margin-bottom: 4px; }
+  .hs-sub { font-family: 'Nanum Myeongjo', serif; font-size: 0.9rem; opacity: 0.75; font-style: italic; }
+  .hs-total .amt { font-family: 'Black Han Sans', sans-serif; font-size: 2rem; color: var(--gold); text-align: right; }
+  .hs-total .note { font-size: 0.72rem; opacity: 0.65; margin-top: 2px; text-align: right; }
+  .hs-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hs-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 10px; padding: 9px 16px; font-size: 0.8rem; line-height: 1.4; }
+  .hs-pill .label { opacity: 0.65; font-size: 0.7rem; display: block; margin-bottom: 2px; }
+  .hs-pill .val { font-weight: 700; font-size: 0.92rem; color: var(--gold); }
+
+  /* YEAR STRIPS */
+  .year-strip { background: white; border: 1.5px solid var(--warm); border-radius: 16px; padding: 26px 28px 22px; margin-bottom: 20px; position: relative; opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  .year-strip::before { content: attr(data-year); position: absolute; top: -14px; left: 24px; background: var(--burnt); color: white; font-family: 'Black Han Sans', sans-serif; font-size: 0.88rem; padding: 2px 14px; border-radius: 12px; }
+  .year-strip[data-year="2025"]::before { background: var(--ember); }
+  .year-strip[data-year="2024"]::before { background: var(--forest); }
+  .year-strip[data-year="2023"]::before { background: var(--night); }
+  .strip-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+  .strip-amount { font-family: 'Black Han Sans', sans-serif; font-size: 1.6rem; color: var(--ember); }
+  .strip-meta { font-size: 0.8rem; color: #888; margin-top: 2px; }
+  .strip-mini { display: flex; gap: 10px; }
+  .mini-badge { background: var(--cream); border: 1px solid var(--warm); border-radius: 8px; padding: 5px 12px; font-size: 0.75rem; text-align: center; }
+  .mini-badge strong { display: block; font-size: 1.1rem; font-family: 'Black Han Sans', sans-serif; color: var(--forest); line-height: 1.2; }
+  .trip-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .trip-item { background: var(--cream); border: 1px solid var(--warm); border-radius: 8px; padding: 6px 12px; font-size: 0.79rem; color: var(--ink); display: flex; align-items: center; gap: 6px; transition: background 0.2s; }
+  .trip-item:hover { background: var(--warm); }
+  .trip-item.hot { border-color: var(--ember); background: #fff5f0; }
+
+  /* SPLIT */
+  .split   { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 36px; }
+  .split-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 36px; }
+
+  .card { background: white; border: 1.5px solid var(--warm); border-radius: 16px; padding: 22px; opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  .card-title { font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 0.95rem; color: var(--forest); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px dashed var(--warm); }
+
+  .region-item { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .region-name { font-size: 0.82rem; min-width: 46px; }
+  .region-bar-wrap { flex: 1; height: 9px; background: var(--warm); border-radius: 10px; overflow: hidden; }
+  .region-bar { height: 100%; border-radius: 10px; background: var(--forest); }
+  .region-count { font-size: 0.75rem; color: #888; min-width: 22px; text-align: right; }
+
+  .spend-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px dotted var(--warm); font-size: 0.83rem; }
+  .spend-row:last-child { border-bottom: none; }
+  .spend-label { color: #555; }
+  .spend-val { font-weight: 700; color: var(--ember); }
+  .spend-val.good { color: var(--forest); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 22px; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: var(--warm); }
+  .tl-item { position: relative; padding-left: 16px; margin-bottom: 13px; }
+  .tl-item::before { content: ''; position: absolute; left: -27px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--forest); border: 2px solid var(--cream); box-shadow: 0 0 0 2px var(--forest); }
+  .tl-item.peak::before { background: var(--ember); box-shadow: 0 0 0 2px var(--ember); }
+  .tl-date { font-size: 0.72rem; color: var(--burnt); font-weight: 700; margin-bottom: 1px; }
+  .tl-name { font-size: 0.83rem; color: var(--ink); line-height: 1.4; }
+  .tl-cost { font-size: 0.72rem; color: #999; margin-top: 1px; }
+  .tl-cost.peak { color: var(--ember); font-weight: 700; }
+
+  /* PARTICIPATION */
+  .p-wrap { display: flex; gap: 14px; }
+  .p-person { flex: 1; background: var(--cream); border: 1px solid var(--warm); border-radius: 12px; padding: 14px; text-align: center; }
+  .p-name { font-size: 0.78rem; color: #888; margin-bottom: 4px; }
+  .p-count { font-family: 'Black Han Sans', sans-serif; font-size: 2rem; color: var(--forest); line-height: 1; }
+  .p-unit { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
+
+  /* FOOTER */
+  .diary-footer { text-align: center; margin-top: 56px; padding-top: 32px; border-top: 2px dashed var(--warm); }
+  .diary-quote { font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; color: var(--forest); font-style: italic; line-height: 1.9; margin-bottom: 16px; }
+  .diary-sign { font-family: 'Black Han Sans', sans-serif; font-size: 1.5rem; color: var(--burnt); letter-spacing: 4px; }
+  .footer-note { font-size: 0.75rem; color: #bbb; margin-top: 10px; }
+
+  .split .card:nth-child(1)   { animation-delay: 0.4s; }
+  .split .card:nth-child(2)   { animation-delay: 0.5s; }
+  .split-3 .card:nth-child(1) { animation-delay: 0.4s; }
+  .split-3 .card:nth-child(2) { animation-delay: 0.5s; }
+  .split-3 .card:nth-child(3) { animation-delay: 0.6s; }
+  .year-strip:nth-of-type(1)  { animation-delay: 0.3s; }
+  .year-strip:nth-of-type(2)  { animation-delay: 0.4s; }
+  .year-strip:nth-of-type(3)  { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <span class="header-icon">🏕️</span>
+    <h1>지효 & 유섭의<br>캠핑 일기</h1>
+    <p class="subtitle">함께 피운 불멍, 함께 쌓은 추억 · 2023 — 2025</p>
+    <div class="year-badges">
+      <span class="year-badge">2023</span>
+      <span class="year-badge">2024</span>
+      <span class="year-badge current">2025</span>
+    </div>
+  </div>
+  <hr class="divider">
+
+  <!-- 3년 합산 STATS -->
+  <div class="grand-stats">
+    <div class="gstat">
+      <div class="gstat-icon">🏕️</div>
+      <div class="gstat-num">25회</div>
+      <div class="gstat-label">3년 총 여행 횟수</div>
+    </div>
+    <div class="gstat">
+      <div class="gstat-icon">💸</div>
+      <div class="gstat-num">1.6천만</div>
+      <div class="gstat-label">3년 누적 지출 (원)</div>
+    </div>
+    <div class="gstat">
+      <div class="gstat-icon">📅</div>
+      <div class="gstat-num">26+</div>
+      <div class="gstat-label">아이들과 함께한 날</div>
+    </div>
+    <div class="gstat">
+      <div class="gstat-icon">📍</div>
+      <div class="gstat-num">연천</div>
+      <div class="gstat-label">3년 최다 방문 지역</div>
+    </div>
+  </div>
+
+  <!-- 2025 HIGHLIGHT -->
+  <div class="section-title">✨ 2025 캠핑 리포트</div>
+  <div class="highlight-strip">
+    <div class="hs-header">
+      <div>
+        <div class="hs-title">2025년 · 9번의 여행</div>
+        <div class="hs-sub">연천부터 단양까지, 올해도 함께라서 행복했어요 🌿</div>
+      </div>
+      <div class="hs-total">
+        <div class="amt">4,880,560원</div>
+        <div class="note">여행당 평균 542,284원</div>
+      </div>
+    </div>
+    <div class="hs-pills">
+      <div class="hs-pill"><span class="label">최다 지출</span><span class="val">단양 도담캠핑장 · ₩920,380</span></div>
+      <div class="hs-pill"><span class="label">최소 지출</span><span class="val">영월 강별캠핑장 · ₩162,330</span></div>
+      <div class="hs-pill"><span class="label">방문 지역 수</span><span class="val">7곳</span></div>
+      <div class="hs-pill"><span class="label">단골 지역</span><span class="val">연천 2회 🏆</span></div>
+    </div>
+  </div>
+
+  <!-- 2025 상세: 타임라인 + 지역 -->
+  <div class="split">
+    <div class="card">
+      <div class="card-title">🗓 2025 여행 타임라인</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2월 14일 · 발렌타인데이 ❤️</div>
+          <div class="tl-name">연천 로하스캠핑장</div>
+          <div class="tl-cost">₩821,620</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">5월 1일</div>
+          <div class="tl-name">속초 설악산</div>
+          <div class="tl-cost">₩630,760</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">5월 16일</div>
+          <div class="tl-name">연천 아미캠핑장</div>
+          <div class="tl-cost">₩467,850</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">7월 4일</div>
+          <div class="tl-name">태안 머드오토캠핑장</div>
+          <div class="tl-cost">₩579,060</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">8월 15일 · 광복절</div>
+          <div class="tl-name">서울 서울랜드</div>
+          <div class="tl-cost">₩248,000</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">8월 22일</div>
+          <div class="tl-name">천안 캠핑화온</div>
+          <div class="tl-cost">₩682,360</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">10월 6일 · 추석 연휴</div>
+          <div class="tl-name">서울</div>
+          <div class="tl-cost">₩368,200</div>
+        </div>
+        <div class="tl-item peak">
+          <div class="tl-date">10월 24일 · 올해 최다 지출 🔥</div>
+          <div class="tl-name">단양 도담캠핑장</div>
+          <div class="tl-cost peak">₩920,380</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">12월 25일 · 크리스마스 🎄</div>
+          <div class="tl-name">영월 강별캠핑장</div>
+          <div class="tl-cost">₩162,330</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:18px;">
+      <div class="card" style="flex:1; opacity:1; animation:fadeUp 0.6s ease 0.5s both;">
+        <div class="card-title">📍 2025 방문 지역</div>
+        <div class="region-item"><span class="region-name">연천</span><div class="region-bar-wrap"><div class="region-bar" style="width:100%"></div></div><span class="region-count">2회</span></div>
+        <div class="region-item"><span class="region-name">서울</span><div class="region-bar-wrap"><div class="region-bar" style="width:100%"></div></div><span class="region-count">2회</span></div>
+        <div class="region-item"><span class="region-name">속초</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">1회</span></div>
+        <div class="region-item"><span class="region-name">태안</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">1회</span></div>
+        <div class="region-item"><span class="region-name">천안</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">1회</span></div>
+        <div class="region-item"><span class="region-name">단양</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">1회</span></div>
+        <div class="region-item"><span class="region-name">영월</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">1회</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 연도별 STRIPS -->
+  <div class="section-title">📚 연도별 전체 기록</div>
+
+  <div class="year-strip" data-year="2025">
+    <div class="strip-header">
+      <div><div class="strip-meta">9회 여행 · 7개 지역 · 여행당 평균 542,284원</div></div>
+      <div class="strip-mini"><div class="mini-badge"><strong>9</strong>회</div><div class="mini-badge"><strong>7</strong>지역</div></div>
+    </div>
+    <ul class="trip-list">
+      <li class="trip-item">❄️ 연천 로하스 (2월)</li>
+      <li class="trip-item">🌸 속초 설악산 (5월)</li>
+      <li class="trip-item">🌿 연천 아미 (5월)</li>
+      <li class="trip-item">☀️ 태안 머드오토 (7월)</li>
+      <li class="trip-item">🎡 서울랜드 (8월)</li>
+      <li class="trip-item">🏕 천안 캠핑화온 (8월)</li>
+      <li class="trip-item">🍂 서울 추석 (10월)</li>
+      <li class="trip-item hot">🔥 단양 도담 (10월) · 최다지출</li>
+      <li class="trip-item">🎄 영월 강별 (12월)</li>
+    </ul>
+  </div>
+
+  <div class="year-strip" data-year="2024">
+    <div class="strip-header">
+      <div><div class="strip-meta">11회 여행 · 가족 2명 · 아이들과 26일</div></div>
+      <div class="strip-mini"><div class="mini-badge"><strong>11</strong>회</div><div class="mini-badge"><strong>7</strong>지역</div></div>
+    </div>
+    <ul class="trip-list">
+      <li class="trip-item">🌡 이천 테르메덴 (1월)</li>
+      <li class="trip-item">🌊 대부도 고래숲 (2월)</li>
+      <li class="trip-item">🌊 대부도 나라팬션 (3월)</li>
+      <li class="trip-item">🌸 가평 오스트리아 (4월)</li>
+      <li class="trip-item">🌿 포천 뉴힐링 (6월)</li>
+      <li class="trip-item">💧 가평 화야 (7월)</li>
+      <li class="trip-item">🏖 완도 명사십리 (8월)</li>
+      <li class="trip-item">🍃 가평 화야 3박 (9월)</li>
+      <li class="trip-item hot">✈️ 제주 노루페인트 (10월) · 최다지출</li>
+      <li class="trip-item">🏕 연천 아미 (10월)</li>
+      <li class="trip-item">⛄ 연천 아미 (12월)</li>
+    </ul>
+  </div>
+
+  <div class="year-strip" data-year="2023">
+    <div class="strip-header">
+      <div><div class="strip-meta">5회 여행 · 가족 2명 · 하반기 집중 출발</div></div>
+      <div class="strip-mini"><div class="mini-badge"><strong>5</strong>회</div><div class="mini-badge"><strong>4</strong>지역</div></div>
+    </div>
+    <ul class="trip-list">
+      <li class="trip-item">🍂 풀무산 (10월)</li>
+      <li class="trip-item">🍂 용가리샘 (10월)</li>
+      <li class="trip-item">🌨 산들링크 (11월)</li>
+      <li class="trip-item">⛄ 가평 화랑 (12월)</li>
+      <li class="trip-item">🎄 영월 아트앤 (12월)</li>
+    </ul>
+  </div>
+
+  <!-- 3년 비교 -->
+  <div class="section-title" style="margin-top:40px">📊 3년 비교 분석</div>
+  <div class="split-3">
+    <div class="card">
+      <div class="card-title">💰 연도별 지출</div>
+      <div class="spend-row"><span class="spend-label">2023년</span><span class="spend-val">₩3,589,020</span></div>
+      <div class="spend-row"><span class="spend-label">2024년</span><span class="spend-val">₩7,674,248</span></div>
+      <div class="spend-row"><span class="spend-label">2025년</span><span class="spend-val">₩4,880,560</span></div>
+      <div class="spend-row" style="margin-top:6px"><span class="spend-label">3년 합계</span><span class="spend-val" style="font-size:1rem">₩16,143,828</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 연도별 여행 횟수</div>
+      <div class="spend-row"><span class="spend-label">2023년</span><span class="spend-val good">5회</span></div>
+      <div class="spend-row"><span class="spend-label">2024년</span><span class="spend-val good">11회 🏆</span></div>
+      <div class="spend-row"><span class="spend-label">2025년</span><span class="spend-val good">9회</span></div>
+      <div class="spend-row" style="margin-top:6px"><span class="spend-label">3년 합계</span><span class="spend-val good" style="font-size:1rem">25회</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">💡 여행당 평균 지출</div>
+      <div class="spend-row"><span class="spend-label">2023년</span><span class="spend-val">₩717,804</span></div>
+      <div class="spend-row"><span class="spend-label">2024년</span><span class="spend-val">₩697,659</span></div>
+      <div class="spend-row"><span class="spend-label">2025년</span><span class="spend-val good">₩542,284 👍</span></div>
+      <div class="spend-row" style="margin-top:6px"><span class="spend-label">3년 평균</span><span class="spend-val">₩645,753</span></div>
+    </div>
+  </div>
+
+  <!-- 지역 + 단골 캠핑장 -->
+  <div class="split">
+    <div class="card">
+      <div class="card-title">🗺 3년간 자주 찾은 지역</div>
+      <div class="region-item"><span class="region-name">연천</span><div class="region-bar-wrap"><div class="region-bar" style="width:100%"></div></div><span class="region-count">4회 🥇</span></div>
+      <div class="region-item"><span class="region-name">가평</span><div class="region-bar-wrap"><div class="region-bar" style="width:75%"></div></div><span class="region-count">3회</span></div>
+      <div class="region-item"><span class="region-name">서울</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">2회</span></div>
+      <div class="region-item"><span class="region-name">대부도</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">2회</span></div>
+      <div class="region-item"><span class="region-name">영월</span><div class="region-bar-wrap"><div class="region-bar" style="width:50%"></div></div><span class="region-count">2회</span></div>
+      <div class="region-item"><span class="region-name">제주도</span><div class="region-bar-wrap"><div class="region-bar" style="width:25%"></div></div><span class="region-count">1회</span></div>
+      <div class="region-item"><span class="region-name">완도</span><div class="region-bar-wrap"><div class="region-bar" style="width:25%"></div></div><span class="region-count">1회</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🏕 단골 캠핑장 & 특별한 기록</div>
+      <div class="spend-row"><span class="spend-label">연천 아미캠핑장</span><span class="spend-val good">3회 🥇</span></div>
+      <div class="spend-row"><span class="spend-label">가평 화야캠핑장</span><span class="spend-val good">2회</span></div>
+      <div class="spend-row"><span class="spend-label">영월 (아트앤 / 강별)</span><span class="spend-val good">2회</span></div>
+      <div class="spend-row" style="border-top: 1px solid var(--warm); margin-top:8px; padding-top:8px">
+        <span class="spend-label">🔥 역대 최다 지출</span><span class="spend-val">제주도 · ₩1,829,420</span>
+      </div>
+      <div class="spend-row"><span class="spend-label">💚 역대 최소 지출</span><span class="spend-val good">영월 강별 · ₩162,330</span></div>
+      <div class="spend-row"><span class="spend-label">❤️ 발렌타인 캠핑</span><span class="spend-val">연천 로하스</span></div>
+      <div class="spend-row"><span class="spend-label">🎄 크리스마스 캠핑</span><span class="spend-val">영월 강별</span></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="diary-footer">
+    <p class="diary-quote">
+      "2023년 가을, 처음 피운 불멍 앞에서부터<br>
+      2025년 크리스마스의 별빛 아래까지.<br>
+      25번의 여행, 함께라서 모두 특별했어."
+    </p>
+    <div class="diary-sign">지효 & 유섭</div>
+    <div class="footer-note">2023 · 2024 · 2025 · 그리고 앞으로도 계속 ···</div>
+  </div>
+
+</div>
+</body>
+</html>
